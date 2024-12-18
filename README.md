@@ -69,7 +69,7 @@ nordic_capitals/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/nordic_capitals.git
+git clone https://github.com/donko1/drf_showing_example_site.git
 cd nordic_capitals
 ```
 
@@ -114,7 +114,7 @@ python3 manage.py runserver
 
 1. Clone the repository:
 ```cmd
-git clone https://github.com/yourusername/nordic_capitals.git
+git clone https://github.com/donko1/drf_showing_example_site.git
 cd nordic_capitals
 ```
 
