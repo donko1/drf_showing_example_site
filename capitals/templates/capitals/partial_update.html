@@ -1,0 +1,77 @@
+{% extends 'capitals/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Демонстрация Частичного Обновления (Partial Update)</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h4 mb-0">Текущие данные</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <p class="mb-0">
+                            Это текущие данные объекта в базе данных. Обратите внимание, что при частичном обновлении
+                            мы можем изменить только некоторые поля, оставив остальные без изменений.
+                        </p>
+                    </div>
+                    <dl>
+                        <dt>Город:</dt>
+                        <dd>{{ capital.capital_city }}</dd>
+                        <dt>Население:</dt>
+                        <dd>{{ capital.capital_population }}</dd>
+                        <dt>Страна:</dt>
+                        <dd>{{ capital.country }}</dd>
+                        <dt>Автор:</dt>
+                        <dd>{{ capital.author.username }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h2 class="h4 mb-0">Частичное обновление</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <p class="mb-0">
+                            Здесь мы демонстрируем partial=True в сериализаторе.
+                            Измените только население города, остальные поля останутся без изменений.
+                        </p>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="population" class="form-label">Новое население:</label>
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="population" 
+                                   name="capital_population"
+                                   value="{{ capital.capital_population }}"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Обновить население</button>
+                    </form>
+
+                    {% if update_success is not None %}
+                        {% if update_success %}
+                            <div class="alert alert-success mt-3">
+                                Данные успешно обновлены!
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger mt-3">
+                                Ошибка при обновлении данных:
+                                <pre>{{ errors|pprint }}</pre>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

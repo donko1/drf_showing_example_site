@@ -1,0 +1,65 @@
+{% extends 'capitals/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Демонстрация вложенных сериализаторов</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Объяснение</h5>
+            <p class="card-text">{{ explanation|linebreaks }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Простой сериализатор</h5>
+                    <pre class="bg-light p-3"><code>{{ example_data.simple_serializer|pprint }}</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Вложенный сериализатор</h5>
+                    <pre class="bg-light p-3"><code>{{ example_data.nested_serializer|pprint }}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Все столицы с вложенными данными</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Город</th>
+                            <th>Население</th>
+                            <th>Страна</th>
+                            <th>Автор</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for capital in capitals %}
+                        <tr>
+                            <td>{{ capital.capital_city }}</td>
+                            <td>{{ capital.capital_population }}</td>
+                            <td>{{ capital.country }}</td>
+                            <td>
+                                <strong>{{ capital.author.username }}</strong><br>
+                                <small>Email: {{ capital.author.email }}</small><br>
+                                <small>Дата регистрации: {{ capital.author.date_joined }}</small>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

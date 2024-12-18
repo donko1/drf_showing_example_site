@@ -1,0 +1,54 @@
+{% extends 'capitals/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Демонстрация Serializer Instance и Initial Data</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h4 mb-0">Instance Data</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <pre class="mb-0" style="white-space: pre-wrap;">{{ instance_explanation }}</pre>
+                    </div>
+                    <h3 class="h5">Данные из БД:</h3>
+                    <pre class="bg-light p-3 rounded">{{ instance_data }}</pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h2 class="h4 mb-0">Initial Data</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <pre class="mb-0" style="white-space: pre-wrap;">{{ initial_explanation }}</pre>
+                    </div>
+                    <h3 class="h5">Новые данные:</h3>
+                    <pre class="bg-light p-3 rounded">{{ initial_data }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header {% if is_valid %}bg-success{% else %}bg-danger{% endif %} text-white">
+            <h2 class="h4 mb-0">Validation Status</h2>
+        </div>
+        <div class="card-body">
+            <p class="h5">Валидация: <strong>{{ is_valid|yesno:"успешна,не прошла" }}</strong></p>
+            {% if validation_errors %}
+            <h3 class="h5 mt-3">Ошибки валидации:</h3>
+            <pre class="bg-light p-3 rounded">{{ validation_errors }}</pre>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="{% url 'home' %}" class="btn btn-primary">Вернуться на главную</a>
+</div>
+{% endblock %}

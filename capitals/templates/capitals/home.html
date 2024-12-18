@@ -1,0 +1,152 @@
+{% extends 'capitals/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Nordic Capitals</h1>
+    
+    <div class="row">
+        {% for capital in capitals %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ capital.capital_city }}</h2>
+                    <p class="card-text">Population: {{ capital.capital_population }}</p>
+                    <p class="card-text"><small class="text-muted">Added by: {{ capital.author.username }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Демонстрация разных типов ViewSet</h5>
+            
+            <div class="mb-4">
+                <h6 class="card-subtitle mb-2 text-muted">1. Стандартный ModelViewSet</h6>
+                <p class="card-text">Базовый URL: <code>/api/capitals/</code></p>
+                <p>Полнофункциональный ViewSet с автоматической реализацией CRUD операций. Только для авторизированных пользователей</p>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="card-subtitle mb-2 text-muted">2. Кастомный ViewSet</h6>
+                <p class="card-text">Базовый URL: <code>/api/capitals-custom/</code></p>
+                <p>Ручная реализация всех методов с детальной обработкой ошибок и полным контролем над логикой</p>
+                
+                <div class="mt-3">
+                    <h6 class="text-primary">Дополнительные действия (actions):</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>POST /api/capitals-custom/{id}/make_primary/</strong>
+                            <br>
+                            <small class="text-muted">Пометить столицу как основную</small>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>GET /api/capitals-custom/primary/</strong>
+                            <br>
+                            <small class="text-muted">Получить информацию об основной столице</small>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>POST /api/capitals-custom/{id}/set-population/</strong>
+                            <br>
+                            <small class="text-muted">Установить население столицы</small>
+                            <br>
+                            <small class="text-muted">Тело запроса: {"population": число}</small>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>GET /api/capitals-custom/by-population/</strong>
+                            <br>
+                            <small class="text-muted">Получить список столиц, отсортированный по населению</small>
+                            <br>
+                            <small class="text-muted">Опциональный параметр: ?min_population=1000000</small>
+                        </li>
+                    </ul>
+                    <div class="mt-2">
+                        <small class="text-info">
+                            <i class="fas fa-info-circle"></i>
+                            Эти дополнительные endpoints добавлены с помощью декоратора @action в ViewSet
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="card-subtitle mb-2 text-muted">3. Дополнительный ModelViewSet</h6>
+                <p class="card-text">Базовый URL: <code>/api/capitals-only-admin/</code></p>
+                <p>Еще один пример ModelViewSet для демонстрации возможности регистрации нескольких ViewSet'ов. Только чтение и только для админ-юзеров</p>
+                <p><small class="text-info">Примечание: Для реализации только операций чтения можно использовать viewsets.ReadOnlyModelViewSet вместо ModelViewSet</small></p>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="card-subtitle mb-2 text-muted">4. ViewSet с пагинацией</h6>
+                <p class="card-text">Базовый URL: <code>/api/capitals-paginated/</code></p>
+                <p>Пример реализации пагинации с использованием PageNumberPagination. По 3 объекта на страницу.</p>
+                <div class="mt-2">
+                    <small class="text-info">
+                        <i class="fas fa-info-circle"></i>
+                        Параметры запроса:
+                        <ul>
+                            <li><code>?page=2</code> - переход на вторую страницу</li>
+                            <li><code>?page_size=4</code> - изменить количество объектов на странице (максимум 5)</li>
+                        </ul>
+                    </small>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5 class="card-title">Аутентификация</h5>
+                <p>Для доступа к API необходима аутентификация. Используйте следующие endpoints:</p>
+                
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <h6>Получение токена:</h6>
+                        <code>POST /api/token/</code>
+                        <p>Тело запроса:</p>
+                        <pre>{
+    "username": "ваш_логин",
+    "password": "ваш_пароль"
+}</pre>
+                        <p>Ответ будет содержать access и refresh токены</p>
+                    </div>
+                    
+                    <div class="list-group-item">
+                        <h6>Обновление токена:</h6>
+                        <code>POST /api/token/refresh/</code>
+                        <p>Тело запроса:</p>
+                        <pre>{
+    "refresh": "ваш_refresh_токен"
+}</pre>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-3">
+                    <p>Для доступа к защищенным endpoint'ам добавьте заголовок:</p>
+                    <pre>Authorization: Bearer ваш_access_токен</pre>
+                </div>
+            </div>
+            
+            <h6 class="mt-4">Доступные операции для каждого ViewSet:</h6>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>GET /.../</strong> - Получить список всех столиц
+                </li>
+                <li class="list-group-item">
+                    <strong>POST /.../</strong> - Создать новую столицу
+                </li>
+                <li class="list-group-item">
+                    <strong>GET /.../{id}/</strong> - Получить детали конкретной столицы
+                </li>
+                <li class="list-group-item">
+                    <strong>PUT /.../{id}/</strong> - Обновить столицу полностью
+                </li>
+                <li class="list-group-item">
+                    <strong>PATCH /.../{id}/</strong> - Частично обновить столицу
+                </li>
+                <li class="list-group-item">
+                    <strong>DELETE /.../{id}/</strong> - Удалить столицу
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

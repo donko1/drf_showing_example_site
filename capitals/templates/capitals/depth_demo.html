@@ -1,0 +1,66 @@
+{% extends 'capitals/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Демонстрация параметра depth</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Что такое depth?</h5>
+            <p class="card-text">{{ explanation|linebreaks }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Без depth</h5>
+                    <p class="card-text text-muted">Плоское представление</p>
+                    <pre class="bg-light p-3"><code>{{ flat_data|pprint }}</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">depth = 1</h5>
+                    <p class="card-text text-muted">Первый уровень вложенности</p>
+                    <pre class="bg-light p-3"><code>{{ depth1_data|pprint }}</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">depth = 2</h5>
+                    <p class="card-text text-muted">Второй уровень вложенности</p>
+                    <pre class="bg-light p-3"><code>{{ depth2_data|pprint }}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Когда использовать depth?</h5>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h6>Простые отношения (depth = 1)</h6>
+                    <p>Когда вам нужно получить основные данные связанного объекта</p>
+                </li>
+                <li class="list-group-item">
+                    <h6>Сложные отношения (depth > 1)</h6>
+                    <p>Когда у связанных объектов есть свои связанные объекты</p>
+                </li>
+                <li class="list-group-item">
+                    <h6>Производительность</h6>
+                    <p>Помните, что большая глубина может повлиять на производительность</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

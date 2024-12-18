@@ -1,0 +1,48 @@
+{% extends 'capitals/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">JSON Serializer</h2>
+            
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="{{ form.json_data.id_for_label }}" class="form-label">
+                        Enter JSON Data:
+                    </label>
+                    {% if form.json_data.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.json_data.errors }}
+                    </div>
+                    {% endif %}
+                    <textarea 
+                        name="{{ form.json_data.name }}"
+                        class="form-control"
+                        id="{{ form.json_data.id_for_label }}"
+                        rows="8"
+                        required
+                    >{{ form.json_data.value|default:'' }}</textarea>
+                    <div class="form-text">
+                        Enter valid JSON data to be serialized. Example format:
+                        <pre class="mt-2 bg-light p-2 rounded">
+{
+    "capital_city": "Copenhagen",
+    "capital_population": 794128,
+    "country": "Denmark"
+}</pre>
+                        <small class="text-muted">Note: The author field will be automatically set to the current user.</small>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">
+                        Serialize Data
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
