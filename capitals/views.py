@@ -12,7 +12,7 @@ from django.http import JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework import permissions
-from .paginators import CapitalsPaginator
+from .paginators import CapitalsPaginator, CapitalsPaginatorLimitOffset, CapitalsCursorPagination
 from .forms import JSONInputForm
 
 class CapitalViewSet(viewsets.ModelViewSet): 
@@ -288,6 +288,16 @@ class CapitalViewSetWithPaginator(viewsets.ModelViewSet):
     serializer_class = CapitalDepthSerializer
     pagination_class = CapitalsPaginator
 
+class CapitalViewSetWithPaginatorOffset(viewsets.ModelViewSet):
+    queryset = Capital.objects.all()
+    serializer_class = CapitalDepthSerializer
+    pagination_class = CapitalsPaginatorLimitOffset
+
+class CapitalViewSetWithCursorPaginator(viewsets.ModelViewSet):
+    queryset = Capital.objects.all().order_by('-capital_population')
+    serializer_class = CapitalDepthSerializer
+    pagination_class = CapitalsCursorPagination
+
 def serialize_data(request):
     form = JSONInputForm()
     if request.method == "POST":
@@ -316,48 +326,50 @@ def home(request):
     return render(request, 'capitals/home.html', {'capitals': capitals})
 
 def demonstrate_serializer(request):
-    # Создаем или получаем тестовый объект Capital
+    # Создаем тестовый объект
     test_capital = Capital.objects.first()
-    if not test_capital:
-        user = User.objects.first()
-        test_capital = Capital.objects.create(
-            capital_city="Oslo",
-            capital_population=693494,
-            country="Norway",
-            author=user
-        )
     
-    # Демонстрация instance - существующий объект
-    serializer_with_instance = CapitalSerializer(instance=test_capital, context={'request': request})
-    instance_explanation = """
-    Instance Data - это данные, которые уже существуют в базе данных.
-    Мы получаем их, передавая существующий объект в параметр instance сериализатора.
-    Эти данные доступны через serializer.data
-    """
+    # Создаем сериализатор с instance
+    instance_serializer = CapitalSerializer(instance=test_capital, context={'request': request})
+    instance_explanation = """Создаем сериализатор с существующим объектом:
+CapitalSerializer(instance=test_capital, context={'request': request})"""
     
-    # Демонстрация initial_data - новые данные для создания объекта
+    # Форматируем данные для отображения
+    instance_data = f"""# Данные из БД
+capital = Capital.objects.first()
+serializer = CapitalSerializer(instance=capital, context={{'request': request}})
+serializer.data = {instance_serializer.data}"""
+
+    # Создаем сериализатор с initial data
     initial_data = {
-        "capital_city": "Stockholm",
-        "capital_population": 975551,
-        "country": "Sweden",
-        "author": test_capital.author.id  # Используем тот же author.id для примера
+        'capital_city': 'Copenhagen',
+        'capital_population': 794128,
+        'country': 'Denmark'
     }
-    serializer_with_initial = CapitalSerializer(data=initial_data, context={'request': request})
-    initial_explanation = """
-    Initial Data - это новые данные, которые мы хотим сохранить в базу данных.
-    Мы передаем их в параметр data сериализатора.
-    Эти данные доступны через serializer.initial_data
-    """
+    initial_serializer = CapitalSerializer(data=initial_data, context={'request': request})
+    initial_explanation = """Создаем сериализатор с новыми данными:
+CapitalSerializer(data=initial_data, context={'request': request})"""
     
-    is_valid = serializer_with_initial.is_valid()
+    # Форматируем данные для отображения
+    initial_data_formatted = f"""# Новые данные
+initial_data = {initial_data}
+serializer = CapitalSerializer(data=initial_data, context={{'request': request}})"""
+
+    # Проверяем валидность
+    is_valid = initial_serializer.is_valid()
+    validation_errors = initial_serializer.errors if not is_valid else None
     
+    if validation_errors:
+        validation_errors = f"""# Ошибки валидации
+serializer.errors = {validation_errors}"""
+
     context = {
-        'instance_data': json.dumps(serializer_with_instance.data, indent=2),
         'instance_explanation': instance_explanation,
-        'initial_data': json.dumps(initial_data, indent=2),
+        'instance_data': instance_data,
         'initial_explanation': initial_explanation,
+        'initial_data': initial_data_formatted,
         'is_valid': is_valid,
-        'validation_errors': json.dumps(serializer_with_initial.errors, indent=2) if not is_valid else None
+        'validation_errors': validation_errors,
     }
     
     return render(request, 'capitals/demonstrate.html', context)
@@ -487,3 +499,6 @@ class GetCapitalInfoView(APIView):
             many=True 
         )
         return Response(serializer_for_queryset.data)
+
+def api_docs(request):
+    return render(request, 'capitals/api_docs.html')

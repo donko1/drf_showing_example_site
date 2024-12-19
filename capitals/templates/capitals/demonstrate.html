@@ -14,8 +14,10 @@
                     <div class="alert alert-info">
                         <pre class="mb-0" style="white-space: pre-wrap;">{{ instance_explanation }}</pre>
                     </div>
-                    <h3 class="h5">Данные из БД:</h3>
-                    <pre class="bg-light p-3 rounded">{{ instance_data }}</pre>
+                    <div class="code-block">
+                        <div class="code-label">Python</div>
+                        <pre><code class="language-python">{{ instance_data }}</code></pre>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,8 +31,10 @@
                     <div class="alert alert-info">
                         <pre class="mb-0" style="white-space: pre-wrap;">{{ initial_explanation }}</pre>
                     </div>
-                    <h3 class="h5">Новые данные:</h3>
-                    <pre class="bg-light p-3 rounded">{{ initial_data }}</pre>
+                    <div class="code-block">
+                        <div class="code-label">Python</div>
+                        <pre><code class="language-python">{{ initial_data }}</code></pre>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,7 +48,10 @@
             <p class="h5">Валидация: <strong>{{ is_valid|yesno:"успешна,не прошла" }}</strong></p>
             {% if validation_errors %}
             <h3 class="h5 mt-3">Ошибки валидации:</h3>
-            <pre class="bg-light p-3 rounded">{{ validation_errors }}</pre>
+            <div class="code-block">
+                <div class="code-label">Errors</div>
+                <pre><code class="language-python">{{ validation_errors }}</code></pre>
+            </div>
             {% endif %}
         </div>
     </div>
