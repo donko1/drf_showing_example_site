@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from rest_framework import status
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Capital
 from .serializers import CapitalSerializer, CapitalNestedSerializer, CapitalFlatSerializer, CapitalDepthSerializer, CapitalDepth2Serializer
 from .permissions import IsOwnerOrReadOnly
@@ -89,7 +90,7 @@ class CapitalViewSetNotModel(viewsets.ViewSet):
         """
         try:
             capital = Capital.objects.get(pk=pk)
-        except ObjectDoesNotExist:
+        except Capital.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
         serializer = CapitalSerializer(capital)
@@ -112,7 +113,7 @@ class CapitalViewSetNotModel(viewsets.ViewSet):
         """
         try:
             capital = Capital.objects.get(pk=pk)
-        except ObjectDoesNotExist:
+        except Capital.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
         serializer = CapitalSerializer(capital, data=request.data)
@@ -138,7 +139,7 @@ class CapitalViewSetNotModel(viewsets.ViewSet):
         """
         try:
             capital = Capital.objects.get(pk=pk)
-        except ObjectDoesNotExist:
+        except Capital.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
         serializer = CapitalSerializer(capital, data=request.data, partial=True)
@@ -162,7 +163,7 @@ class CapitalViewSetNotModel(viewsets.ViewSet):
         """
         try:
             capital = Capital.objects.get(pk=pk)
-        except ObjectDoesNotExist:
+        except Capital.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
         capital.delete()
@@ -190,7 +191,7 @@ class CapitalViewSetNotModel(viewsets.ViewSet):
             capital.is_primary = True
             capital.save()
             return Response({'status': 'Столица установлена как основная'})
-        except ObjectDoesNotExist:
+        except Capital.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
     
     @action(detail=False, methods=['get'])
@@ -208,7 +209,7 @@ class CapitalViewSetNotModel(viewsets.ViewSet):
             capital = Capital.objects.get(is_primary=True)
             serializer = CapitalSerializer(capital)
             return Response(serializer.data)
-        except ObjectDoesNotExist:
+        except Capital.DoesNotExist:
             return Response(
                 {'error': 'Основная столица не найдена'}, 
                 status=status.HTTP_404_NOT_FOUND
@@ -228,7 +229,7 @@ class CapitalViewSetNotModel(viewsets.ViewSet):
         """
         try:
             capital = Capital.objects.get(pk=pk)
-        except Capital.DoesNotExist:  # type: ignore
+        except Capital.DoesNotExist:
             return Response({'error': 'Capital not found'}, status=status.HTTP_404_NOT_FOUND)
         
         # Получаем новое значение населения из тела запроса

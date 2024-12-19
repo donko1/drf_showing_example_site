@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Capital(models.Model):
     country = models.CharField(max_length=100)
     capital_city = models.CharField(max_length=100)
