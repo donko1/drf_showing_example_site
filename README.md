@@ -56,6 +56,7 @@ nordic_capitals/
 ├── capitals/              # Main app directory
 │   ├── models.py         # Data models
 │   ├── serializers.py    # Various serializer examples
+│   └── paginators.py          # Custom paginators
 │   ├── views.py         # ViewSet implementations
 │   ├── permissions.py   # Custom permissions
 │   └── urls.py          # API endpoints
