@@ -70,7 +70,7 @@ nordic_capitals/
 1. Clone the repository:
 ```bash
 git clone https://github.com/donko1/drf_showing_example_site.git
-cd nordic_capitals
+cd drf_showing_example_site
 ```
 
 2. Create and activate virtual environment:
@@ -115,7 +115,7 @@ python3 manage.py runserver
 1. Clone the repository:
 ```cmd
 git clone https://github.com/donko1/drf_showing_example_site.git
-cd nordic_capitals
+cd drf_showing_example_site
 ```
 
 2. Create and activate virtual environment:
