@@ -1,20 +1,17 @@
 from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
-from .views import (
-    CapitalViewSetWithPaginator,
-    CapitalViewSetWithPaginatorOffset,
-    CapitalViewSetWithCursorPaginator
-)
+
 
 # Создаем router и регистрируем наши ViewSet'ы
 router = DefaultRouter()
 router.register(r'capitals', views.CapitalViewSet, basename='capital')
 router.register(r'capitals-custom', views.CapitalViewSetNotModel, basename='capital-custom')
 router.register(r'capitals-only-admin', views.CapitalViewSetModel, basename='capital-admin')
-router.register(r'capitals-paginated', CapitalViewSetWithPaginator, basename='capital-paginated')
-router.register(r'capitals-paginated-offset', CapitalViewSetWithPaginatorOffset, basename='capital-paginated-offset')
-router.register(r'capitals-paginated-cursor', CapitalViewSetWithCursorPaginator, basename='capital-paginated-cursor')
+router.register(r'capitals-paginated', views.CapitalViewSetWithPaginator, basename='capital-paginated')
+router.register(r'capitals-paginated-offset', views.CapitalViewSetWithPaginatorOffset, basename='capital-paginated-offset')
+router.register(r'capitals-paginated-cursor', views.CapitalViewSetWithCursorPaginator, basename='capital-paginated-cursor')
+router.register(r'capitals-filter1', views.CapitalViewSetWithFilterByPopulation, basename='capitals-filter1')
 
 urlpatterns = [
     path('', views.home, name='home'),

@@ -17,6 +17,7 @@ serializers.txt
 viewsets.txt
 гайд.txt
 pagination.txt
+filters.txt
 permissions_and_auth.txt
 
 .idea/

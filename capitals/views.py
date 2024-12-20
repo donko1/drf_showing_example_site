@@ -16,6 +16,16 @@ from rest_framework import permissions
 from .paginators import CapitalsPaginator, CapitalsPaginatorLimitOffset, CapitalsCursorPagination
 from .forms import JSONInputForm
 
+class CapitalViewSetWithFilterByPopulation(viewsets.ModelViewSet):
+    serializer_class = CapitalSerializer
+    queryset = Capital.objects.all()
+    
+    def get_queryset(self):
+        population = self.request.query_params.get('population', None)
+        if population is not None:
+            return Capital.objects.filter(capital_population__gt=population)
+        return Capital.objects.all()
+
 class CapitalViewSet(viewsets.ModelViewSet): 
     queryset = Capital.objects.all()
     serializer_class = CapitalSerializer
