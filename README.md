@@ -156,7 +156,7 @@ copy nordic_capitals\local_settings.py.example nordic_capitals\local_settings.py
 
 5. Generate secret key:
 ```cmd
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())" > nordic_capitals\secret_key.txt
+python -c "from django.core.management.utils import get_random_secret_key; key=get_random_secret_key(); print(key); open('secret_key.txt', 'w').write(key)"
 ```
 
 6. Apply migrations:
