@@ -1,125 +1,71 @@
 # Nordic Capitals API
 
-A comprehensive Django REST Framework (DRF) example project that demonstrates various DRF features and my practices. This project serves as both a learning resource and a reference implementation for DRF concepts.
-
-## Prerequisites
-
-### Linux (Ubuntu/Debian)
-
-1. Install Python:
-```bash
-# Update package list
-sudo apt update
-
-# Install Python
-sudo apt install python3
-sudo apt install python3-pip
-
-# Verify installation
-python3 --version
-pip3 --version
-```
-
-2. Install Git:
-```bash
-sudo apt install git
-git --version
-```
-
-### Windows
-
-1. Install Python:
-   - Go to [Python Downloads](https://www.python.org/downloads/)
-   - Download the latest Python installer (e.g., Python 3.11)
-   - Run the installer
-   - Check "Add Python to PATH" during installation
-   - Click "Install Now"
-   - Verify installation by opening Command Prompt:
-   ```cmd
-   python --version
-   pip --version
-   ```
-
-2. Install Git:
-   - Go to [Git Downloads](https://git-scm.com/downloads)
-   - Download Git for Windows
-   - Run the installer with default settings
-   - Verify installation:
-   ```cmd
-   git --version
-   ```
+A comprehensive Django REST Framework (DRF) example project that demonstrates various DRF features. This project serves as both a learning resource and a reference implementation for DRF concepts.
 
 ## Project Structure
 
 ```
 nordic_capitals/
-├── capitals/              # Main app directory
-│   ├── models.py         # Data models
-│   ├── serializers.py    # Various serializer examples
-│   └── paginators.py          # Custom paginators
-│   ├── views.py         # ViewSet implementations
-│   ├── permissions.py   # Custom permissions
-│   └── urls.py          # API endpoints
-├── manage.py
-└── requirements.txt
+├── capitals/                # Main app directory
+│   ├── migrations/         # Database migrations
+│   ├── templates/         # HTML templates
+│   ├── models.py          # Data models
+│   ├── serializers.py     # API serializers
+│   ├── views.py           # ViewSet implementations
+│   ├── urls.py            # API endpoints
+│   ├── forms.py           # Forms for template views
+│   ├── permissions.py     # Custom permissions
+│   ├── paginators.py      # Custom pagination classes
+│   ├── admin.py          # Admin panel configuration
+│   └── tests.py          # Unit tests
+├── nordic_capitals/       # Project settings directory
+│   ├── settings.py       # Main settings file
+│   ├── local_settings.py # Local environment settings
+│   └── urls.py           # Main URL configuration
+├── manage.py             # Django management script
+├── requirements.txt      # Project dependencies
+├── README.md            # Project documentation
+└── start.sh             # Startup script
 ```
 
-## Installation
+## Installation and Setup
 
 ### Linux
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/donko1/drf_showing_example_site.git
-cd drf_showing_example_site
+git clone https://github.com/yourusername/nordic_capitals.git
+cd nordic_capitals
 ```
 
-2. Create and activate virtual environment:
+2. Make the startup script executable:
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+chmod +x start.sh
 ```
 
-3. Install dependencies:
+3. Run the script:
 ```bash
-pip install -r requirements.txt
+./start.sh
 ```
 
-4. Create local settings:
-```bash
-cp nordic_capitals/local_settings.py.example nordic_capitals/local_settings.py
-```
-
-5. Generate a new secret key and update local_settings.py:
-```bash
-python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-```
-Copy the generated key and replace 'your-secret-key-here' in local_settings.py with it.
-
-6. Apply migrations:
-```bash
-python3 manage.py migrate
-```
-
-7. Create superuser (optional):
-```bash
-python3 manage.py createsuperuser
-```
-
-8. Run the development server:
-```bash
-python3 manage.py runserver
-```
+The script will automatically:
+- Create a virtual environment
+- Install all dependencies
+- Configure the project
+- Apply migrations
+- Create a superuser (on first run)
+- Start the server
 
 ### Windows
 
-1. Clone the repository:
-```cmd
-git clone https://github.com/donko1/drf_showing_example_site.git
-cd drf_showing_example_site
-```
+#### Option 1: Using Git Bash
+1. Install [Git for Windows](https://gitforwindows.org/)
+2. Open Git Bash
+3. Follow the Linux instructions
 
-2. Create and activate virtual environment:
+#### Option 2: Manual Setup
+1. Clone the repository
+2. Create a virtual environment:
 ```cmd
 python -m venv venv
 venv\Scripts\activate
@@ -130,32 +76,27 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Create local settings:
+4. Copy settings file:
 ```cmd
 copy nordic_capitals\local_settings.py.example nordic_capitals\local_settings.py
 ```
 
-5. Generate a new secret key and update local_settings.py:
+5. Generate secret key:
 ```cmd
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())" > nordic_capitals\secret_key.txt
 ```
-Copy the generated key and replace 'your-secret-key-here' in local_settings.py with it.
 
 6. Apply migrations:
 ```cmd
 python manage.py migrate
 ```
 
-7. Create superuser (optional):
+7. Create superuser:
 ```cmd
 python manage.py createsuperuser
 ```
 
-8. Run the development server:
+8. Start the server:
 ```cmd
 python manage.py runserver
 ```
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
