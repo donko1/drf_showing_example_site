@@ -2,6 +2,70 @@
 
 A comprehensive Django REST Framework (DRF) example project that demonstrates various DRF features. This project serves as both a learning resource and a reference implementation for DRF concepts.
 
+## Prerequisites
+
+### Linux (Ubuntu/Debian)
+
+1. Install Python:
+```bash
+# Update package list
+sudo apt update
+
+# Install Python
+sudo apt install python3
+sudo apt install python3-pip
+
+# Verify installation
+python3 --version
+pip3 --version
+```
+
+2. Install Git:
+```bash
+sudo apt install git
+git --version
+```
+
+### Windows
+
+1. Install Python:
+   - Go to [Python Downloads](https://www.python.org/downloads/)
+   - Download the latest Python installer (e.g., Python 3.11)
+   - Run the installer
+   - Check "Add Python to PATH" during installation
+   - Click "Install Now"
+   - Verify installation by opening Command Prompt:
+   ```cmd
+   python --version
+   pip --version
+   ```
+
+2. Install Git:
+   - Go to [Git Downloads](https://git-scm.com/downloads)
+   - Download Git for Windows
+   - Run the installer with default settings
+   - Verify installation:
+   ```cmd
+   git --version
+   ```
+
+### macOS
+
+1. Install Homebrew (if not installed):
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+2. Install Python and Git:
+```bash
+brew install python git
+
+# Verify installation
+python3 --version
+pip3 --version
+git --version
+```
+
 ## Project Structure
 
 ```
@@ -30,12 +94,12 @@ nordic_capitals/
 
 ## Installation and Setup
 
-### Linux
+### Linux and macOS
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/nordic_capitals.git
-cd nordic_capitals
+git clone https://github.com/donko1/drf_showing_example_site.git
+cd drf_showing_example_site
 ```
 
 2. Make the startup script executable:
@@ -59,12 +123,21 @@ The script will automatically:
 ### Windows
 
 #### Option 1: Using Git Bash
-1. Install [Git for Windows](https://gitforwindows.org/)
-2. Open Git Bash
-3. Follow the Linux instructions
+1. Clone the repository:
+```bash
+git clone https://github.com/donko1/drf_showing_example_site.git
+cd drf_showing_example_site
+```
+
+2. Follow the Linux instructions using Git Bash
 
 #### Option 2: Manual Setup
-1. Clone the repository
+1. Clone the repository:
+```cmd
+git clone https://github.com/donko1/drf_showing_example_site.git
+cd drf_showing_example_site
+```
+
 2. Create a virtual environment:
 ```cmd
 python -m venv venv
@@ -99,4 +172,3 @@ python manage.py createsuperuser
 8. Start the server:
 ```cmd
 python manage.py runserver
-```
