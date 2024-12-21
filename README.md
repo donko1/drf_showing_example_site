@@ -120,6 +120,18 @@ The script will automatically:
 - Create a superuser (on first run)
 - Start the server
 
+### Restarting the Server
+
+To restart the server after the initial setup:
+1. Activate the virtual environment:
+```bash
+source venv/bin/activate  # Linux/macOS
+```
+2. Start the server:
+```bash
+python manage.py runserver
+```
+
 ### Windows
 
 #### Option 1: Using Git Bash
@@ -156,7 +168,7 @@ copy nordic_capitals\local_settings.py.example nordic_capitals\local_settings.py
 
 5. Generate secret key:
 ```cmd
-python -c "from django.core.management.utils import get_random_secret_key; from os im key=get_random_secret_key(); print(key);"
+python -c "from django.core.management.utils import get_random_secret_key; key=get_random_secret_key(); print(key);"
 ```
 $${\color{red}Important!}$$ Add key to nordic_capitals/secret_key.txt file
 6. Apply migrations:
@@ -170,5 +182,17 @@ python manage.py createsuperuser
 ```
 
 8. Start the server:
+```cmd
+python manage.py runserver
+```
+
+### Restarting the Server (Windows)
+
+To restart the server after the initial setup:
+1. Activate the virtual environment:
+```cmd
+venv\Scripts\activate
+```
+2. Start the server:
 ```cmd
 python manage.py runserver
