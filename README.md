@@ -122,14 +122,20 @@ The script will automatically:
 
 ### Restarting the Server
 
-To restart the server after the initial setup:
+To restart the server after the initial setup u have 2 options:
+#### Option 1: Manual restart
 1. Activate the virtual environment:
 ```bash
-source venv/bin/activate  # Linux/macOS
+source venv/bin/activate  
 ```
 2. Start the server:
 ```bash
 python manage.py runserver
+```
+#### Option 2: start.sh restart
+1. Start start.sh
+```bash
+./start.sh
 ```
 
 ### Windows
@@ -171,6 +177,7 @@ copy nordic_capitals\local_settings.py.example nordic_capitals\local_settings.py
 python -c "from django.core.management.utils import get_random_secret_key; key=get_random_secret_key(); print(key);"
 ```
 $${\color{red}Important!}$$ Add key to nordic_capitals/secret_key.txt file
+
 6. Apply migrations:
 ```cmd
 python manage.py migrate
