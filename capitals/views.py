@@ -11,10 +11,30 @@ from django.contrib.auth.models import User
 import json
 from django.http import JsonResponse
 from rest_framework import viewsets
+import django_filters.rest_framework
 from rest_framework.decorators import action
 from rest_framework import permissions
+from rest_framework import filters
 from .paginators import CapitalsPaginator, CapitalsPaginatorLimitOffset, CapitalsCursorPagination
 from .forms import JSONInputForm
+
+class CapitalViewSetOrderingFilter(viewsets.ModelViewSet):
+    serializer_class = CapitalSerializer
+    queryset = Capital.objects.all()
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['country', "capital_city"]
+
+class CapitalViewSetSearchFilter(viewsets.ModelViewSet):
+    serializer_class = CapitalSerializer
+    queryset = Capital.objects.all()
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['country', "capital_city"]
+
+class CapitalViewSetGenericFilter(viewsets.ModelViewSet):
+    serializer_class = CapitalSerializer
+    queryset = Capital.objects.all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['country', "author",] # Указывай здесь поля
 
 class CapitalViewSetWithFilterByPopulation(viewsets.ModelViewSet):
     serializer_class = CapitalSerializer

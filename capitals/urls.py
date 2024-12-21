@@ -3,6 +3,7 @@ from . import views
 from rest_framework.routers import DefaultRouter
 
 
+
 # Создаем router и регистрируем наши ViewSet'ы
 router = DefaultRouter()
 router.register(r'capitals', views.CapitalViewSet, basename='capital')
@@ -12,6 +13,9 @@ router.register(r'capitals-paginated', views.CapitalViewSetWithPaginator, basena
 router.register(r'capitals-paginated-offset', views.CapitalViewSetWithPaginatorOffset, basename='capital-paginated-offset')
 router.register(r'capitals-paginated-cursor', views.CapitalViewSetWithCursorPaginator, basename='capital-paginated-cursor')
 router.register(r'capitals-filter1', views.CapitalViewSetWithFilterByPopulation, basename='capitals-filter1')
+router.register(r'capitals-filter2', views.CapitalViewSetGenericFilter, basename='capitals-filter2')
+router.register(r'capitals-filter3', views.CapitalViewSetSearchFilter, basename='capitals-filter3')
+router.register(r'capitals-filter4', views.CapitalViewSetOrderingFilter, basename='capitals-filter4')
 
 urlpatterns = [
     path('', views.home, name='home'),

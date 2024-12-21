@@ -60,6 +60,70 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="mb-4">
+                <h6 class="card-subtitle mb-2 text-muted">5. Фильтрация столиц по полю</h6>
+                <p class="card-text">Базовый URL: <code>/api/capitals-filter2/</code></p>
+                <p>ViewSet использующий DjangoFilterBackend для фильтрации столиц по стране</p>
+                
+                <div class="mt-3">
+                    <h6 class="text-primary">Параметры запроса:</h6>/api/capitals-filter2/?country=Finland
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>Какое-нибудь поле</strong>
+                            <br>
+                            <small class="text-muted">Фильтрует столицы по полю. Для просмотра зайди на страницу через браузер</small>
+                            <br>
+                            <small class="text-muted">Пример: <code>/api/capitals-filter2/?country=Finland</code></small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="card-subtitle mb-2 text-muted">6. Поиск по столицам</h6>
+                <p class="card-text">Базовый URL: <code>/api/capitals-filter3/</code></p>
+                <p>ViewSet с возможностью поиска по полям country и capital_city</p>
+                
+                <div class="mt-3">
+                    <h6 class="text-primary">Параметры запроса:</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>search</strong>
+                            <br>
+                            <small class="text-muted">Поиск по полям country и capital_city</small>
+                            <br>
+                            <small class="text-muted">Пример: <code>/api/capitals-filter3/?search=fin</code></small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="card-subtitle mb-2 text-muted">7. Сортировка столиц</h6>
+                <p class="card-text">Базовый URL: <code>/api/capitals-filter4/</code></p>
+                <p>ViewSet с возможностью сортировки по полям country и capital_city</p>
+                
+                <div class="mt-3">
+                    <h6 class="text-primary">Параметры запроса:</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>ordering</strong>
+                            <br>
+                            <small class="text-muted">Сортировка по указанному полю. Используйте "-" для обратной сортировки.</small>
+                            <br>
+                            <small class="text-muted">Доступные поля: country, capital_city</small>
+                            <br>
+                            <small class="text-muted">Примеры:</small>
+                            <ul>
+                                <li><code>/api/capitals-filter4/?ordering=country</code> - сортировка по стране (А-Я)</li>
+                                <li><code>/api/capitals-filter4/?ordering=-country</code> - сортировка по стране (Я-А)</li>
+                                <li><code>/api/capitals-filter4/?ordering=capital_city</code> - сортировка по названию столицы</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
