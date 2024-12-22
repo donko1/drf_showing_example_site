@@ -51,6 +51,11 @@ router.register(
     views.CapitalViewSetWithThrottlingAdmin,
     basename="capitals-throttling2",
 )
+router.register(
+    r"capitals-throttling3",
+    views.CapitalViewSetWithThrottlingWithScope,
+    basename="capitals-throttling3",
+)
 
 urlpatterns = [
     path("", views.home, name="home"),

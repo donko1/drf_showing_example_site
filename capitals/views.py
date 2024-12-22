@@ -32,6 +32,12 @@ from .throttlers import AdminUserThrottle
 from .forms import JSONInputForm
 
 
+class CapitalViewSetWithThrottlingWithScope(viewsets.ModelViewSet):
+    serializer_class = CapitalSerializer
+    queryset = Capital.objects.all()
+    throttle_scope = "capital"
+
+
 class CapitalViewSetWithThrottlingAdmin(viewsets.ModelViewSet):
     serializer_class = CapitalSerializer
     queryset = Capital.objects.all()
