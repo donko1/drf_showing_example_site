@@ -18,6 +18,7 @@ serializers.txt
 viewsets.txt
 гайд.txt
 pagination.txt
+throttling.txt
 filters.txt
 permissions_and_auth.txt
 
