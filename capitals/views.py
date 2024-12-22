@@ -28,7 +28,15 @@ from .paginators import (
     CapitalsPaginatorLimitOffset,
     CapitalsCursorPagination,
 )
+from .throttlers import AdminUserThrottle
 from .forms import JSONInputForm
+
+
+class CapitalViewSetWithThrottlingAdmin(viewsets.ModelViewSet):
+    serializer_class = CapitalSerializer
+    queryset = Capital.objects.all()
+    throttle_classes = [AdminUserThrottle]
+    permission_classes = [permissions.IsAdminUser]
 
 
 class CapitalViewSetWithThrottling(viewsets.ModelViewSet):
