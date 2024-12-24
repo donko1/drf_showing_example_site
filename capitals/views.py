@@ -87,8 +87,46 @@ class CapitalViewSetWithFilterByPopulation(viewsets.ModelViewSet):
 
 
 class CapitalViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet с поддержкой версионирования через Accept header.
+    Для доступа к разным версиям API используйте заголовок Accept:
+    - Версия 1.0: Accept: application/json; version=1.0
+    - Версия 2.0: Accept: application/json; version=2.0
+    
+    Версия 1.0: базовая информация о столицах
+    Версия 2.0: расширенная информация + дополнительные методы
+    """
     queryset = Capital.objects.all()
-    serializer_class = CapitalSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        """Выбор сериализатора в зависимости от версии API"""
+        if self.request.version == '1.0':
+            return CapitalSerializer
+        return CapitalNestedSerializer
+
+    def get_queryset(self):
+        """Выборка с дополнительной фильтрацией для версии 2.0"""
+        queryset = Capital.objects.all()
+        if self.request.version == '2.0':
+            min_population = self.request.query_params.get('min_population', None)
+            if min_population is not None:
+                queryset = queryset.filter(capital_population__gte=min_population)
+        return queryset
+
+    @action(detail=True, methods=['post'])
+    def set_featured(self, request, pk=None):
+        """Метод доступен только в версии 2.0"""
+        if request.version != '2.0':
+            return Response(
+                {'error': 'This endpoint is only available in API version 2.0'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        capital = self.get_object()
+        capital.is_featured = True
+        capital.save()
+        return Response({'status': 'capital marked as featured'})
+
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -381,6 +419,48 @@ class CapitalViewSetWithCursorPaginator(viewsets.ModelViewSet):
     queryset = Capital.objects.all().order_by("-capital_population")
     serializer_class = CapitalDepthSerializer
     pagination_class = CapitalsCursorPagination
+
+
+class CapitalViewSetWithVersioning(viewsets.ModelViewSet):
+    """
+    ViewSet с поддержкой версионирования через Accept header.
+    Для доступа к разным версиям API используйте заголовок Accept:
+    - Версия 1.0: Accept: application/json; version=1.0
+    - Версия 2.0: Accept: application/json; version=2.0
+    
+    Версия 1.0: базовая информация о столицах
+    Версия 2.0: расширенная информация + дополнительные методы
+    """
+    queryset = Capital.objects.all()
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        """Выбор сериализатора в зависимости от версии API"""
+        if self.request.version == '1.0':
+            return CapitalSerializer
+        return CapitalNestedSerializer
+
+    def get_queryset(self):
+        """Выборка с дополнительной фильтрацией для версии 2.0"""
+        queryset = Capital.objects.all()
+        if self.request.version == '2.0':
+            min_population = self.request.query_params.get('min_population', None)
+            if min_population is not None:
+                queryset = queryset.filter(capital_population__gte=min_population)
+        return queryset
+
+    @action(detail=True, methods=['post'])
+    def set_featured(self, request, pk=None):
+        """Метод доступен только в версии 2.0"""
+        if request.version != '2.0':
+            return Response(
+                {'error': 'This endpoint is only available in API version 2.0'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        capital = self.get_object()
+        capital.is_featured = True
+        capital.save()
+        return Response({'status': 'capital marked as featured'})
 
 
 def serialize_data(request):

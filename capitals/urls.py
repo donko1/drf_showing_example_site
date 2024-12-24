@@ -57,6 +57,9 @@ router.register(
     basename="capitals-throttling3",
 )
 
+# Регистрируем версионный ViewSet
+router.register(r'capitals-with-versions', views.CapitalViewSetWithVersioning, basename='capital-with-versions')
+
 urlpatterns = [
     path("", views.home, name="home"),
     path("api/", include(router.urls)),
