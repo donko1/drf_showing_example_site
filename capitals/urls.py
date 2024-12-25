@@ -75,8 +75,8 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("serialize/", views.serialize_data, name="serialize"),
     path("demonstrate/", views.demonstrate_serializer, name="demonstrate"),
-    path("partial/", views.partial_update_demo, name="partial"),
-    path("nested/", views.nested_serializer_demo, name="nested"),
-    path("depth/", views.depth_demo, name="depth"),
-    path("api/docs/", views.api_docs, name="api_docs"),
+    path("partial-update/", views.partial_update_demo, name="partial-update"),
+    path("nested/", views.nested_serializer_demo, name="nested_serializer_demo"),
+    path("depth/", views.depth_demo, name="depth_demo"),
+    path("api-docs/", views.api_docs, name="api_docs"),
 ]
