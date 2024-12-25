@@ -173,6 +173,40 @@ POST /api/capitals-with-versions/1/set_featured/
 Accept: application/json; version=2.0
 Authorization: Bearer your-token</code></pre>
             </div>
+            <div class="mb-4">
+                <h6 class="card-subtitle mb-2 text-muted">12. Версионный ViewSet с пространствами имен</h6>
+                <p class="card-text">Базовые URL:</p>
+                <ul>
+                    <li>Версия 1.0: <code>/api/v1/capitals-ns/</code></li>
+                    <li>Версия 2.0: <code>/api/v2/capitals-ns/</code></li>
+                </ul>
+                <p>ViewSet с поддержкой версионирования через пространства имен URL. Версии API доступны по разным URL-адресам.</p>
+                
+                <p class="mt-3"><strong>Версия 1.0:</strong></p>
+                <ul>
+                    <li>Базовое представление данных</li>
+                    <li>Стандартные CRUD операции</li>
+                </ul>
+                <p>Пример запроса:</p>
+                <pre><code>GET /api/v1/capitals-ns/
+Authorization: Bearer your-token</code></pre>
+
+                <p class="mt-3"><strong>Версия 2.0:</strong></p>
+                <ul>
+                    <li>Расширенное представление с вложенными данными об авторе</li>
+                    <li>Дополнительные возможности фильтрации</li>
+                    <li>Фильтрация по минимальному населению</li>
+                    <li>Метод для отметки избранных столиц</li>
+                </ul>
+                <p>Примеры запросов:</p>
+                <pre><code># Получение списка столиц с фильтрацией по населению
+GET /api/v2/capitals-ns/?min_population=1000000
+Authorization: Bearer your-token
+
+# Отметка столицы как избранной
+POST /api/v2/capitals-ns/1/set_featured/
+Authorization: Bearer your-token</code></pre>
+            </div>
         </div>
     </div>
 

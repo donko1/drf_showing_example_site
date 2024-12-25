@@ -22,6 +22,7 @@ from rest_framework.decorators import action
 from rest_framework import permissions
 from rest_framework import filters
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
+from rest_framework import versioning
 
 from .paginators import (
     CapitalsPaginator,
@@ -419,6 +420,54 @@ class CapitalViewSetWithCursorPaginator(viewsets.ModelViewSet):
     queryset = Capital.objects.all().order_by("-capital_population")
     serializer_class = CapitalDepthSerializer
     pagination_class = CapitalsCursorPagination
+
+
+class CapitalViewSetWithNamespaceVersioning(viewsets.ModelViewSet):
+    """
+    ViewSet с поддержкой версионирования через пространства имен URL.
+    Доступ к разным версиям API через разные URL:
+    - Версия 1.0: /api/v1/capitals-ns/
+    - Версия 2.0: /api/v2/capitals-ns/
+    """
+    queryset = Capital.objects.all()
+    versioning_class = versioning.NamespaceVersioning
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        """Выбор сериализатора в зависимости от версии API"""
+        version = self.request.resolver_match.namespace
+        print(f"Current version from namespace: {version}")  # Для отладки
+        if version == 'v1':
+            return CapitalSerializer
+        elif version == 'v2':
+            return CapitalNestedSerializer
+        return CapitalSerializer  # По умолчанию возвращаем базовый сериализатор
+
+    def get_queryset(self):
+        """Выборка с дополнительной фильтрацией для версии 2.0"""
+        queryset = Capital.objects.all()
+        version = self.request.resolver_match.namespace
+        print(f"Current version for queryset: {version}")  # Для отладки
+        if version == 'v2':
+            min_population = self.request.query_params.get('min_population', None)
+            if min_population is not None:
+                queryset = queryset.filter(capital_population__gte=min_population)
+        return queryset
+
+    @action(detail=True, methods=['post'])
+    def set_featured(self, request, pk=None):
+        """Метод доступен только в версии 2.0"""
+        version = request.resolver_match.namespace
+        print(f"Current version for action: {version}")  # Для отладки
+        if version != 'v2':
+            return Response(
+                {'error': 'This endpoint is only available in API version 2.0'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        capital = self.get_object()
+        capital.is_featured = True
+        capital.save()
+        return Response({'status': 'capital marked as featured'})
 
 
 class CapitalViewSetWithVersioning(viewsets.ModelViewSet):
