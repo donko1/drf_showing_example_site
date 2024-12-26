@@ -1,226 +1,311 @@
 {% extends 'capitals/base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1 class="text-center mb-4">API Documentation</h1>
-    
+<div class="container">
+    <div class="api-header">
+        <h1 class="display-5 mb-4">Nordic Capitals API Documentation</h1>
+        <p class="lead">Документация по API для работы со столицами северных стран</p>
+    </div>
+
     <div class="card mb-4">
         <div class="card-body">
             <h2 class="card-title">ViewSet Types</h2>
             
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">1. Стандартный ModelViewSet</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals/</code></p>
-                <p>Полнофункциональный ViewSet с автоматической реализацией CRUD операций. Только для авторизированных пользователей</p>
-            </div>
-
-            <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">2. Кастомный ViewSet</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-custom/</code></p>
-                <p>Ручная реализация всех методов с детальной обработкой ошибок и полным контролем над логикой</p>
-                
-                <div class="mt-3">
-                    <h6 class="text-primary">Дополнительные действия (actions):</h6>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>POST /api/capitals-custom/{id}/make_primary/</strong>
-                            <br>
-                            <small class="text-muted">Пометить столицу как основную</small>
-                        </li>
-                        <li class="list-group-item">
-                            <strong>GET /api/capitals-custom/primary/</strong>
-                            <br>
-                            <small class="text-muted">Получить основную столицу</small>
-                        </li>
-                    </ul>
+                <div class="version-header">
+                    <h5>1. Стандартный ModelViewSet</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals/</code></p>
+                    <p>Полнофункциональный ViewSet с автоматической реализацией CRUD операций. Только для авторизированных пользователей</p>
                 </div>
             </div>
 
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">3. ViewSet только для админов</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-only-admin/</code></p>
-                <p>Доступ только для администраторов. Используется IsAdminUser permission class.</p>
-            </div>
-
-            <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">4. Фильтрация столиц по населению</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-filter1/</code></p>
-                <p>ViewSet с возможностью фильтрации столиц по количеству населения</p>
-                
-                <div class="mt-3">
-                    <h6 class="text-primary">Параметры запроса:</h6>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>population</strong>
-                            <br>
-                            <small class="text-muted">Фильтрует столицы с населением больше указанного значения</small>
-                            <br>
-                            <small class="text-muted">Пример: <code>/api/capitals-filter1/?population=1000000</code></small>
-                        </li>
-                    </ul>
+                <div class="version-header">
+                    <h5>2. Кастомный ViewSet</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-custom/</code></p>
+                    <p>Ручная реализация всех методов с детальной обработкой ошибок и полным контролем над логикой</p>
+                    
+                    <div class="mt-3">
+                        <h6 class="text-primary">Дополнительные действия (actions):</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>POST /api/capitals-custom/{id}/make_primary/</strong>
+                                <br>
+                                <small class="text-muted">Пометить столицу как основную</small>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>GET /api/capitals-custom/primary/</strong>
+                                <br>
+                                <small class="text-muted">Получить основную столицу</small>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">5. Фильтрация столиц по полю</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-filter2/</code></p>
-                <p>ViewSet использующий DjangoFilterBackend для фильтрации столиц по стране</p>
-                
-                <div class="mt-3">
-                    <h6 class="text-primary">Параметры запроса:</h6>/api/capitals-filter2/?country=Finland
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>Какое-нибудь поле</strong>
-                            <br>
-                            <small class="text-muted">Фильтрует столицы по полю. Для просмотра зайди на страницу через браузер</small>
-                            <br>
-                            <small class="text-muted">Пример: <code>/api/capitals-filter2/?country=Finland</code></small>
-                        </li>
-                    </ul>
+                <div class="version-header">
+                    <h5>3. ViewSet только для админов</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-only-admin/</code></p>
+                    <p>Доступ только для администраторов. Используется IsAdminUser permission class.</p>
                 </div>
             </div>
 
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">6. Поиск по столицам</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-filter3/</code></p>
-                <p>ViewSet с возможностью поиска по полям country и capital_city</p>
-                
-                <div class="mt-3">
-                    <h6 class="text-primary">Параметры запроса:</h6>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>search</strong>
-                            <br>
-                            <small class="text-muted">Поиск по полям country и capital_city</small>
-                            <br>
-                            <small class="text-muted">Пример: <code>/api/capitals-filter3/?search=fin</code></small>
-                        </li>
-                    </ul>
+                <div class="version-header">
+                    <h5>4. Фильтрация столиц по населению</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-filter1/</code></p>
+                    <p>ViewSet с возможностью фильтрации столиц по количеству населения</p>
+                    
+                    <div class="mt-3">
+                        <h6 class="text-primary">Параметры запроса:</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>population</strong>
+                                <br>
+                                <small class="text-muted">Фильтрует столицы с населением больше указанного значения</small>
+                                <br>
+                                <small class="text-muted">Пример: <code>/api/capitals-filter1/?population=1000000</code></small>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">7. Сортировка столиц</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-filter4/</code></p>
-                <p>ViewSet с возможностью сортировки по полям country и capital_city</p>
-                
-                <div class="mt-3">
-                    <h6 class="text-primary">Параметры запроса:</h6>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>ordering</strong>
-                            <br>
-                            <small class="text-muted">Сортировка по указанному полю. Используйте "-" для обратной сортировки.</small>
-                            <br>
-                            <small class="text-muted">Доступные поля: country, capital_city</small>
-                            <br>
-                            <small class="text-muted">Примеры:</small>
-                            <ul>
-                                <li><code>/api/capitals-filter4/?ordering=country</code> - сортировка по стране (А-Я)</li>
-                                <li><code>/api/capitals-filter4/?ordering=-country</code> - сортировка по стране (Я-А)</li>
-                                <li><code>/api/capitals-filter4/?ordering=capital_city</code> - сортировка по названию столицы</li>
-                            </ul>
-                        </li>
-                    </ul>
+                <div class="version-header">
+                    <h5>5. Фильтрация столиц по полю</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-filter2/</code></p>
+                    <p>ViewSet использующий DjangoFilterBackend для фильтрации столиц по стране</p>
+                    
+                    <div class="mt-3">
+                        <h6 class="text-primary">Параметры запроса:</h6>/api/capitals-filter2/?country=Finland
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>Какое-нибудь поле</strong>
+                                <br>
+                                <small class="text-muted">Фильтрует столицы по полю. Для просмотра зайди на страницу через браузер</small>
+                                <br>
+                                <small class="text-muted">Пример: <code>/api/capitals-filter2/?country=Finland</code></small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="version-header">
+                    <h5>6. Поиск по столицам</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-filter3/</code></p>
+                    <p>ViewSet с возможностью поиска по полям country и capital_city</p>
+                    
+                    <div class="mt-3">
+                        <h6 class="text-primary">Параметры запроса:</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>search</strong>
+                                <br>
+                                <small class="text-muted">Поиск по полям country и capital_city</small>
+                                <br>
+                                <small class="text-muted">Пример: <code>/api/capitals-filter3/?search=fin</code></small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="version-header">
+                    <h5>7. Сортировка столиц</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-filter4/</code></p>
+                    <p>ViewSet с возможностью сортировки по полям country и capital_city</p>
+                    
+                    <div class="mt-3">
+                        <h6 class="text-primary">Параметры запроса:</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>ordering</strong>
+                                <br>
+                                <small class="text-muted">Сортировка по указанному полю. Используйте "-" для обратной сортировки.</small>
+                                <br>
+                                <small class="text-muted">Доступные поля: country, capital_city</small>
+                                <br>
+                                <small class="text-muted">Примеры:</small>
+                                <ul>
+                                    <li><code>/api/capitals-filter4/?ordering=country</code> - сортировка по стране (А-Я)</li>
+                                    <li><code>/api/capitals-filter4/?ordering=-country</code> - сортировка по стране (Я-А)</li>
+                                    <li><code>/api/capitals-filter4/?ordering=capital_city</code> - сортировка по названию столицы</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">8. API-запрос с ограничением на кол-во запросов</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-throttling1/</code></p>
-                <p>ViewSet с блокировкой пользователя через время. 3 для анонимного, 10 для зарегестрированного пользователя</p>
+                <div class="version-header">
+                    <h5>8. API-запрос с ограничением на кол-во запросов</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-throttling1/</code></p>
+                    <p>ViewSet с блокировкой пользователя через время. 3 для анонимного, 10 для зарегестрированного пользователя</p>
 
+                </div>
             </div>
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">9. API-запрос с ограничением на кол-во запросов для админов.</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-throttling2/</code></p>
-                <p>ViewSet с доступом только для админа и только 10 запросов в день</p>
+                <div class="version-header">
+                    <h5>9. API-запрос с ограничением на кол-во запросов для админов.</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-throttling2/</code></p>
+                    <p>ViewSet с доступом только для админа и только 10 запросов в день</p>
 
+                </div>
             </div>
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">10. API-запрос с ограничением на кол-во запросов для всех реализованный через scope</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-throttling3/</code></p>
-                <p>Viewset, взявший ограничение из local-settings благодаря параметру throttle_scope в viewsets</p>
+                <div class="version-header">
+                    <h5>10. API-запрос с ограничением на кол-во запросов для всех реализованный через scope</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-throttling3/</code></p>
+                    <p>Viewset, взявший ограничение из local-settings благодаря параметру throttle_scope в viewsets</p>
 
+                </div>
             </div>
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">11. Версионный ViewSet</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-with-versions/</code></p>
-                <p>ViewSet с поддержкой версионирования через Accept header. <strong>Примечание:</strong> В данный момент этот способ версионирования отключен, так как проект использует версионирование через URL (NamespaceVersioning). Для включения версионирования через заголовки необходимо:</p>
-                <ol>
-                    <li>В local_settings.py изменить настройку версионирования:
-                        <pre><code>REST_FRAMEWORK = {
+                <div class="version-header inactive">
+                    <h5>11. Версионный ViewSet с Accept Header 
+                        <span class="badge bg-secondary">Неактивен</span>
+                    </h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-with-versions/</code></p>
+                    <p>ViewSet с поддержкой версионирования через Accept header. <strong>Примечание:</strong> В данный момент этот способ версионирования отключен, так как проект использует версионирование через поддомены (HostNameVersioning).</p>
+                    
+                    <p>Для включения версионирования через Accept header необходимо:</p>
+                    <ol>
+                        <li>В local_settings.py изменить настройку версионирования:
+                            <pre><code>REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
     'DEFAULT_VERSION': '1.0',
     'ALLOWED_VERSIONS': ['1.0', '2.0'],
     'VERSION_PARAM': 'version',
 }</code></pre>
-                    </li>
-                    <li>Удалить или закомментировать URL-маршруты для версионирования через пространства имен в urls.py</li>
-                </ol>
-                <p>После этих изменений можно будет использовать версионирование через заголовки:</p>
-                <pre><code>GET /api/capitals-with-versions/
-Accept: application/json; version=1.0
-Authorization: Bearer your-token</code></pre>
+                        </li>
+                        <li>Удалить или закомментировать URL-маршруты для других типов версионирования в urls.py</li>
+                    </ol>
 
-                <p class="mt-3"><strong>Версия 1.0:</strong></p>
-                <ul>
-                    <li>Базовое представление данных</li>
-                    <li>Стандартные CRUD операции</li>
-                </ul>
-                <p>Пример запроса:</p>
-                <pre><code>GET /api/capitals-with-versions/
-Accept: application/json; version=1.0
-Authorization: Bearer your-token</code></pre>
+                    <p class="mt-3"><strong>Версия 1.0:</strong></p>
+                    <ul>
+                        <li>Базовое представление данных</li>
+                        <li>Стандартные CRUD операции</li>
+                    </ul>
+                    <p>Пример запроса:</p>
+                    <pre><code>curl -H "Accept: application/json; version=1.0" http://localhost:8000/api/capitals-with-versions/</code></pre>
 
-                <p class="mt-3"><strong>Версия 2.0:</strong></p>
-                <ul>
-                    <li>Расширенное представление с вложенными данными об авторе</li>
-                    <li>Дополнительные возможности фильтрации</li>
-                    <li>Фильтрация по минимальному населению</li>
-                    <li>Метод для отметки избранных столиц</li>
-                </ul>
-                <p>Примеры запросов:</p>
-                <pre><code>GET /api/capitals-with-versions/?min_population=1000000
-Accept: application/json; version=2.0
-Authorization: Bearer your-token
-
-POST /api/capitals-with-versions/1/set_featured/
-Accept: application/json; version=2.0
-Authorization: Bearer your-token</code></pre>
-            </div>
-            <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">12. Версионный ViewSet с пространствами имен</h6>
-                <p class="card-text">Базовые URL:</p>
-                <ul>
-                    <li>Версия 1.0: <code>/api/v1/capitals-ns/</code></li>
-                    <li>Версия 2.0: <code>/api/v2/capitals-ns/</code></li>
-                </ul>
-                <p>ViewSet с поддержкой версионирования через пространства имен URL. Версии API доступны по разным URL-адресам.</p>
-                
-                <p class="mt-3"><strong>Версия 1.0:</strong></p>
-                <ul>
-                    <li>Базовое представление данных</li>
-                    <li>Стандартные CRUD операции</li>
-                </ul>
-                <p>Пример запроса:</p>
-                <pre><code>GET /api/v1/capitals-ns/
-Authorization: Bearer your-token</code></pre>
-
-                <p class="mt-3"><strong>Версия 2.0:</strong></p>
-                <ul>
-                    <li>Расширенное представление с вложенными данными об авторе</li>
-                    <li>Дополнительные возможности фильтрации</li>
-                    <li>Фильтрация по минимальному населению</li>
-                    <li>Метод для отметки избранных столиц</li>
-                </ul>
-                <p>Примеры запросов:</p>
-                <pre><code># Получение списка столиц с фильтрацией по населению
-GET /api/v2/capitals-ns/?min_population=1000000
-Authorization: Bearer your-token
+                    <p class="mt-3"><strong>Версия 2.0:</strong></p>
+                    <ul>
+                        <li>Расширенное представление с вложенными данными об авторе</li>
+                        <li>Дополнительные возможности фильтрации</li>
+                        <li>Фильтрация по минимальному населению</li>
+                        <li>Метод для отметки избранных столиц</li>
+                    </ul>
+                    <p>Примеры запросов:</p>
+                    <pre><code># Получение списка столиц с фильтрацией по населению
+curl -H "Accept: application/json; version=2.0" http://localhost:8000/api/capitals-with-versions/?min_population=1000000
 
 # Отметка столицы как избранной
-POST /api/v2/capitals-ns/1/set_featured/
-Authorization: Bearer your-token</code></pre>
+curl -X POST -H "Accept: application/json; version=2.0" http://localhost:8000/api/capitals-with-versions/1/set_featured/</code></pre>
+
+                    <div class="alert alert-info" role="alert">
+                        <strong>Преимущества:</strong> Версионирование через Accept header следует REST-принципам и не требует изменения URL.
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="version-header inactive">
+                    <h5>12. Версионный ViewSet с NamespaceVersioning 
+                        <span class="badge bg-secondary">Неактивен</span>
+                    </h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">
+                        <strong>Примечание: В данный момент этот способ версионирования отключен, так как проект использует версионирование через поддомены (HostNameVersioning).</strong>
+                    </p>
+                    <p>Для включения версионирования через пространства имен необходимо:</p>
+                    <ol>
+                        <li>В local_settings.py изменить настройку версионирования:
+                            <pre><code>REST_FRAMEWORK = {
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+    'DEFAULT_VERSION': 'v1',
+    'ALLOWED_VERSIONS': ['v1', 'v2'],
+    'VERSION_PARAM': 'version',
+}</code></pre>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="version-header active">
+                    <h5>13. Версионный ViewSet с HostNameVersioning 
+                        <span class="badge bg-success">Активен</span>
+                    </h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовые URL:</p>
+                    <ul>
+                        <li>Версия 1.0: <code>http://v1.localhost:8000/api/hostname/capitals-hostname/</code></li>
+                        <li>Версия 2.0: <code>http://v2.localhost:8000/api/hostname/capitals-hostname/</code></li>
+                    </ul>
+                    <p>ViewSet с поддержкой версионирования через поддомены. Версии API определяются по поддомену.</p>
+                    
+                    <div class="alert alert-info" role="alert">
+                        <strong>Важно!</strong> Для локальной разработки необходимо добавить в файл /etc/hosts следующие строки:
+                        <pre><code>127.0.0.1   v1.localhost
+127.0.0.1   v2.localhost</code></pre>
+                    </div>
+
+                    <p class="mt-3"><strong>Версия 1.0 (v1.localhost):</strong></p>
+                    <ul>
+                        <li>Базовое представление данных</li>
+                        <li>Стандартные CRUD операции</li>
+                    </ul>
+                    <p>Пример запроса:</p>
+                    <pre><code>curl http://v1.localhost:8000/api/hostname/capitals-hostname/</code></pre>
+
+                    <p class="mt-3"><strong>Версия 2.0 (v2.localhost):</strong></p>
+                    <ul>
+                        <li>Расширенное представление с вложенными данными об авторе</li>
+                        <li>Дополнительные возможности фильтрации</li>
+                        <li>Фильтрация по минимальному населению</li>
+                        <li>Метод для отметки избранных столиц</li>
+                    </ul>
+                    <p>Примеры запросов:</p>
+                    <pre><code># Получение списка столиц с фильтрацией по населению
+curl http://v2.localhost:8000/api/hostname/capitals-hostname/?min_population=1000000
+
+# Отметка столицы как избранной
+curl -X POST http://v2.localhost:8000/api/hostname/capitals-hostname/1/set_featured/</code></pre>
+
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Примечание:</strong> При использовании HostNameVersioning убедитесь, что ваш DNS или файл hosts правильно настроены для работы с поддоменами.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -230,37 +315,49 @@ Authorization: Bearer your-token</code></pre>
             <h2 class="card-title">Pagination Types</h2>
 
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">1. PageNumber Pagination</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-paginated/</code></p>
-                <p>Пример реализации пагинации с использованием PageNumberPagination. По 3 объекта на страницу.</p>
-            </div>
-
-            <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">2. Offset Pagination</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-paginated-offset/</code></p>
-                <p>Пример реализации пагинации с использованием LimitOffsetPagination. Offset определяет сколько элементов пропустить перед началом выборки.</p>
-                <div class="mt-2">
-                    <p><strong>Параметры:</strong></p>
-                    <ul>
-                        <li><code>limit</code> - количество элементов на странице (по умолчанию 3, максимум 5)</li>
-                        <li><code>offset</code> - сколько элементов пропустить</li>
-                    </ul>
-                    <p><small class="text-muted">Пример: <code>/api/capitals-paginated-offset/?limit=2&offset=3</code> - пропустить первые 3 элемента и показать следующие 2</small></p>
+                <div class="version-header">
+                    <h5>1. PageNumber Pagination</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-paginated/</code></p>
+                    <p>Пример реализации пагинации с использованием PageNumberPagination. По 3 объекта на страницу.</p>
                 </div>
             </div>
 
             <div class="mb-4">
-                <h6 class="card-subtitle mb-2 text-muted">3. Cursor Pagination</h6>
-                <p class="card-text">Базовый URL: <code>/api/capitals-paginated-cursor/</code></p>
-                <p>Пример реализации пагинации с использованием CursorPagination. Идеально подходит для больших наборов данных, так как использует курсор вместо смещения. Практически всегда лучше, чем обычный, но его нельзя использовать в тех случаях, когда: 1. Нужна конкретная страница. 2. Нужно видеть кол-во страниц</p>
-                <div class="mt-2">
-                    <p><strong>Особенности:</strong></p>
-                    <ul>
-                        <li>Сортировка по населению (по убыванию)</li>
-                        <li>По 3 объекта на страницу</li>
-                        <li>Безопасна для параллельных изменений данных</li>
-                    </ul>
-                    <p><small class="text-muted">API автоматически предоставит ссылки next и previous с закодированными курсорами</small></p>
+                <div class="version-header">
+                    <h5>2. Offset Pagination</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-paginated-offset/</code></p>
+                    <p>Пример реализации пагинации с использованием LimitOffsetPagination. Offset определяет сколько элементов пропустить перед началом выборки.</p>
+                    <div class="mt-2">
+                        <p><strong>Параметры:</strong></p>
+                        <ul>
+                            <li><code>limit</code> - количество элементов на странице (по умолчанию 3, максимум 5)</li>
+                            <li><code>offset</code> - сколько элементов пропустить</li>
+                        </ul>
+                        <p><small class="text-muted">Пример: <code>/api/capitals-paginated-offset/?limit=2&offset=3</code> - пропустить первые 3 элемента и показать следующие 2</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="version-header">
+                    <h5>3. Cursor Pagination</h5>
+                </div>
+                <div class="version-content">
+                    <p class="card-text">Базовый URL: <code>/api/capitals-paginated-cursor/</code></p>
+                    <p>Пример реализации пагинации с использованием CursorPagination. Идеально подходит для больших наборов данных, так как использует курсор вместо смещения. Практически всегда лучше, чем обычный, но его нельзя использовать в тех случаях, когда: 1. Нужна конкретная страница. 2. Нужно видеть кол-во страниц</p>
+                    <div class="mt-2">
+                        <p><strong>Особенности:</strong></p>
+                        <ul>
+                            <li>Сортировка по населению (по убыванию)</li>
+                            <li>По 3 объекта на страницу</li>
+                            <li>Безопасна для параллельных изменений данных</li>
+                        </ul>
+                        <p><small class="text-muted">API автоматически предоставит ссылки next и previous с закодированными курсорами</small></p>
+                    </div>
                 </div>
             </div>
         </div>

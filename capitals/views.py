@@ -512,6 +512,57 @@ class CapitalViewSetWithVersioning(viewsets.ModelViewSet):
         return Response({'status': 'capital marked as featured'})
 
 
+class CapitalViewSetWithHostNameVersioning(viewsets.ModelViewSet):
+    """
+    ViewSet с поддержкой версионирования через доменное имя (поддомен).
+    Версии определяются следующим образом:
+    - v1.localhost: Базовая версия с минимальным набором данных
+    - v2.localhost: Расширенная версия с дополнительной информацией
+    """
+    queryset = Capital.objects.all()
+    versioning_class = versioning.HostNameVersioning
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        """Выбор сериализатора в зависимости от версии API"""
+        hostname = self.request.get_host().split('.')[0]
+        print(f"Current version from hostname: {hostname}")  # Для отладки
+        
+        if hostname == 'v1':
+            return CapitalSerializer
+        elif hostname == 'v2':
+            return CapitalNestedSerializer
+        return CapitalSerializer  # По умолчанию возвращаем базовый сериализатор
+
+    def get_queryset(self):
+        """Выборка с дополнительной фильтрацией для версии 2.0"""
+        queryset = Capital.objects.all()
+        hostname = self.request.get_host().split('.')[0]
+        print(f"Current version for queryset: {hostname}")  # Для отладки
+        
+        if hostname == 'v2':
+            min_population = self.request.query_params.get('min_population', None)
+            if min_population is not None:
+                queryset = queryset.filter(capital_population__gte=min_population)
+        return queryset
+
+    @action(detail=True, methods=['post'])
+    def set_featured(self, request, pk=None):
+        """Метод доступен только в версии 2.0"""
+        hostname = request.get_host().split('.')[0]
+        print(f"Current version for action: {hostname}")  # Для отладки
+        
+        if hostname != 'v2':
+            return Response(
+                {'error': 'This endpoint is only available in API version 2.0'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        capital = self.get_object()
+        capital.is_featured = True
+        capital.save()
+        return Response({'status': 'capital marked as featured'})
+
+
 def serialize_data(request):
     form = JSONInputForm()
     if request.method == "POST":
