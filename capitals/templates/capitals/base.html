@@ -57,6 +57,9 @@
                             <a class="nav-link {% if request.resolver_match.url_name == 'api_docs' %}active{% endif %}" 
                                href="{% url 'api_docs' %}">Управление API</a>
                         </li>
+                        <li class="nav-item center">
+                            <a href="{% url 'docs' %}" class="nav-link">Самособираемая документация</a>
+                        </li>
                     </ul>
                 </div>
             </div>
