@@ -18,6 +18,50 @@
                 <div class="version-content">
                     <p class="card-text">Базовый URL: <code>/api/capitals/</code></p>
                     <p>Полнофункциональный ViewSet с автоматической реализацией CRUD операций. Только для авторизированных пользователей</p>
+                    <ul>
+                        <li>
+                            <strong>GET</strong> 
+                            <a href="/api/capitals/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                /api/capitals/
+                            </a>
+                            - Получить список всех столиц
+                        </li>
+                        <li>
+                            <strong>POST</strong> 
+                            <a href="/api/capitals/" target="_blank" class="btn btn-sm btn-outline-success">
+                                /api/capitals/
+                            </a>
+                            - Создать новую столицу
+                        </li>
+                        <li>
+                            <strong>GET</strong> 
+                            <a href="/api/capitals/{id}/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                /api/capitals/{id}/
+                            </a>
+                            - Получить детали конкретной столицы
+                        </li>
+                        <li>
+                            <strong>PUT</strong> 
+                            <a href="/api/capitals/{id}/" target="_blank" class="btn btn-sm btn-outline-warning">
+                                /api/capitals/{id}/
+                            </a>
+                            - Обновить столицу полностью
+                        </li>
+                        <li>
+                            <strong>PATCH</strong> 
+                            <a href="/api/capitals/{id}/" target="_blank" class="btn btn-sm btn-outline-info">
+                                /api/capitals/{id}/
+                            </a>
+                            - Частично обновить столицу
+                        </li>
+                        <li>
+                            <strong>DELETE</strong> 
+                            <a href="/api/capitals/{id}/" target="_blank" class="btn btn-sm btn-outline-danger">
+                                /api/capitals/{id}/
+                            </a>
+                            - Удалить столицу
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -36,11 +80,17 @@
                                 <strong>POST /api/capitals-custom/{id}/make_primary/</strong>
                                 <br>
                                 <small class="text-muted">Пометить столицу как основную</small>
+                                <a href="/api/capitals-custom/{id}/make_primary/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-custom/{id}/make_primary/
+                                </a>
                             </li>
                             <li class="list-group-item">
                                 <strong>GET /api/capitals-custom/primary/</strong>
                                 <br>
                                 <small class="text-muted">Получить основную столицу</small>
+                                <a href="/api/capitals-custom/primary/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-custom/primary/
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -54,6 +104,15 @@
                 <div class="version-content">
                     <p class="card-text">Базовый URL: <code>/api/capitals-only-admin/</code></p>
                     <p>Доступ только для администраторов. Используется IsAdminUser permission class.</p>
+                    <ul>
+                        <li>
+                            <strong>GET</strong> 
+                            <a href="/api/capitals-only-admin/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                /api/capitals-only-admin/
+                            </a>
+                            - Список столиц (только для админов)
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -74,6 +133,9 @@
                                 <small class="text-muted">Фильтрует столицы с населением больше указанного значения</small>
                                 <br>
                                 <small class="text-muted">Пример: <code>/api/capitals-filter1/?population=1000000</code></small>
+                                <a href="/api/capitals-filter1/?population=1000000" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-filter1/?population=1000000
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -89,14 +151,17 @@
                     <p>ViewSet использующий DjangoFilterBackend для фильтрации столиц по стране</p>
                     
                     <div class="mt-3">
-                        <h6 class="text-primary">Параметры запроса:</h6>/api/capitals-filter2/?country=Finland
+                        <h6 class="text-primary">Параметры запроса:</h6>
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <strong>Какое-нибудь поле</strong>
+                                <strong>country</strong>
                                 <br>
-                                <small class="text-muted">Фильтрует столицы по полю. Для просмотра зайди на страницу через браузер</small>
+                                <small class="text-muted">Фильтрует столицы по стране</small>
                                 <br>
                                 <small class="text-muted">Пример: <code>/api/capitals-filter2/?country=Finland</code></small>
+                                <a href="/api/capitals-filter2/?country=Finland" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-filter2/?country=Finland
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -120,6 +185,9 @@
                                 <small class="text-muted">Поиск по полям country и capital_city</small>
                                 <br>
                                 <small class="text-muted">Пример: <code>/api/capitals-filter3/?search=fin</code></small>
+                                <a href="/api/capitals-filter3/?search=fin" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-filter3/?search=fin
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -150,6 +218,15 @@
                                     <li><code>/api/capitals-filter4/?ordering=-country</code> - сортировка по стране (Я-А)</li>
                                     <li><code>/api/capitals-filter4/?ordering=capital_city</code> - сортировка по названию столицы</li>
                                 </ul>
+                                <a href="/api/capitals-filter4/?ordering=country" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-filter4/?ordering=country
+                                </a>
+                                <a href="/api/capitals-filter4/?ordering=-country" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-filter4/?ordering=-country
+                                </a>
+                                <a href="/api/capitals-filter4/?ordering=capital_city" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-filter4/?ordering=capital_city
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -162,7 +239,15 @@
                 <div class="version-content">
                     <p class="card-text">Базовый URL: <code>/api/capitals-throttling1/</code></p>
                     <p>ViewSet с блокировкой пользователя через время. 3 для анонимного, 10 для зарегестрированного пользователя</p>
-
+                    <ul>
+                        <li>
+                            <strong>GET</strong> 
+                            <a href="/api/capitals-throttling1/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                /api/capitals-throttling1/
+                            </a>
+                            - Эндпоинт с базовым тротлингом
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="mb-4">
@@ -172,7 +257,15 @@
                 <div class="version-content">
                     <p class="card-text">Базовый URL: <code>/api/capitals-throttling2/</code></p>
                     <p>ViewSet с доступом только для админа и только 10 запросов в день</p>
-
+                    <ul>
+                        <li>
+                            <strong>GET</strong> 
+                            <a href="/api/capitals-throttling2/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                /api/capitals-throttling2/
+                            </a>
+                            - Эндпоинт с админским тротлингом
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="mb-4">
@@ -182,7 +275,15 @@
                 <div class="version-content">
                     <p class="card-text">Базовый URL: <code>/api/capitals-throttling3/</code></p>
                     <p>Viewset, взявший ограничение из local-settings благодаря параметру throttle_scope в viewsets</p>
-
+                    <ul>
+                        <li>
+                            <strong>GET</strong> 
+                            <a href="/api/capitals-throttling3/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                /api/capitals-throttling3/
+                            </a>
+                            - Эндпоинт со scope тротлингом
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="mb-4">
@@ -313,6 +414,97 @@ curl -X POST http://v2.localhost:8000/api/hostname/capitals-hostname/1/set_featu
 
     <div class="card mb-4">
         <div class="card-body">
+            <h2 class="card-title">Excel Export API</h2>
+            <p>API для экспорта данных в Excel формат</p>
+            <div class="version-header active">
+                <h5>MyExampleExcelViewSet
+                    <span class="badge bg-success">Active</span>
+                </h5>
+                <p>Позволяет экспортировать данные о столицах в формате Excel (.xlsx)</p>
+            </div>
+            <div class="version-content">
+                <ul>
+                    <li>
+                        <strong>GET</strong> 
+                        <a href="/api/excel-reader/" target="_blank" class="btn btn-sm btn-outline-primary">
+                            /api/excel-reader/
+                        </a>
+                        - Получить список всех столиц в формате Excel
+                    </li>
+                    <li>
+                        <strong>GET</strong> 
+                        <a href="/api/excel-reader/{id}/" target="_blank" class="btn btn-sm btn-outline-primary">
+                            /api/excel-reader/{id}/
+                        </a>
+                        - Получить данные конкретной столицы в формате Excel
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Custom Renderers API</h2>
+            <p>API с различными форматами отображения данных</p>
+            <div class="version-header active">
+                <h5>JSON Renderer
+                    <span class="badge bg-success">Active</span>
+                </h5>
+                <p>Отображение данных в формате JSON</p>
+            </div>
+            <div class="version-content">
+                <ul>
+                    <li>
+                        <strong>GET</strong> 
+                        <a href="/api-json-render/" target="_blank" class="btn btn-sm btn-outline-primary">
+                            /api-json-render/
+                        </a>
+                        - Получить тестовые данные в формате JSON
+                    </li>
+                </ul>
+            </div>
+
+            <div class="version-header active mt-4">
+                <h5>Template Renderer
+                    <span class="badge bg-success">Active</span>
+                </h5>
+                <p>Отображение данных с использованием HTML шаблона</p>
+            </div>
+            <div class="version-content">
+                <ul>
+                    <li>
+                        <strong>GET</strong> 
+                        <a href="/api-template-render/" target="_blank" class="btn btn-sm btn-outline-primary">
+                            /api-template-render/
+                        </a>
+                        - Получить данные, отрендеренные через HTML шаблон
+                    </li>
+                </ul>
+            </div>
+
+            <div class="version-header active mt-4">
+                <h5>Static HTML Renderer
+                    <span class="badge bg-success">Active</span>
+                </h5>
+                <p>Отображение статического HTML контента</p>
+            </div>
+            <div class="version-content">
+                <ul>
+                    <li>
+                        <strong>GET</strong> 
+                        <a href="/api-html-render/" target="_blank" class="btn btn-sm btn-outline-primary">
+                            /api-html-render/
+                        </a>
+                        - Получить статический HTML контент
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
             <h2 class="card-title">Pagination Types</h2>
 
             <div class="mb-4">
@@ -322,6 +514,15 @@ curl -X POST http://v2.localhost:8000/api/hostname/capitals-hostname/1/set_featu
                 <div class="version-content">
                     <p class="card-text">Базовый URL: <code>/api/capitals-paginated/</code></p>
                     <p>Пример реализации пагинации с использованием PageNumberPagination. По 3 объекта на страницу.</p>
+                    <ul>
+                        <li>
+                            <strong>GET</strong> 
+                            <a href="/api/capitals-paginated/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                /api/capitals-paginated/
+                            </a>
+                            - Список с пагинацией по страницам
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -339,6 +540,15 @@ curl -X POST http://v2.localhost:8000/api/hostname/capitals-hostname/1/set_featu
                             <li><code>offset</code> - сколько элементов пропустить</li>
                         </ul>
                         <p><small class="text-muted">Пример: <code>/api/capitals-paginated-offset/?limit=2&offset=3</code> - пропустить первые 3 элемента и показать следующие 2</small></p>
+                        <ul>
+                            <li>
+                                <strong>GET</strong> 
+                                <a href="/api/capitals-paginated-offset/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-paginated-offset/
+                                </a>
+                                - Список с limit-offset пагинацией
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -358,6 +568,15 @@ curl -X POST http://v2.localhost:8000/api/hostname/capitals-hostname/1/set_featu
                             <li>Безопасна для параллельных изменений данных</li>
                         </ul>
                         <p><small class="text-muted">API автоматически предоставит ссылки next и previous с закодированными курсорами</small></p>
+                        <ul>
+                            <li>
+                                <strong>GET</strong> 
+                                <a href="/api/capitals-paginated-cursor/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    /api/capitals-paginated-cursor/
+                                </a>
+                                - Список с курсорной пагинацией
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -380,6 +599,15 @@ curl -X POST http://v2.localhost:8000/api/hostname/capitals-hostname/1/set_featu
     "password": "ваш_пароль"
 }</pre>
                     <p>Ответ будет содержать access и refresh токены</p>
+                    <ul>
+                        <li>
+                            <strong>POST</strong> 
+                            <a href="/api/token/" target="_blank" class="btn btn-sm btn-outline-success">
+                                /api/token/
+                            </a>
+                            - Получить токен
+                        </li>
+                    </ul>
                 </div>
                 
                 <div class="list-group-item">
@@ -389,6 +617,15 @@ curl -X POST http://v2.localhost:8000/api/hostname/capitals-hostname/1/set_featu
                     <pre>{
     "refresh": "ваш_refresh_токен"
 }</pre>
+                    <ul>
+                        <li>
+                            <strong>POST</strong> 
+                            <a href="/api/token/refresh/" target="_blank" class="btn btn-sm btn-outline-success">
+                                /api/token/refresh/
+                            </a>
+                            - Обновить токен
+                        </li>
+                    </ul>
                 </div>
             </div>
             
