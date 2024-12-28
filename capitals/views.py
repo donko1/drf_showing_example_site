@@ -1,7 +1,12 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.renderers import JSONRenderer
+from rest_framework.renderers import (
+    JSONRenderer,
+    TemplateHTMLRenderer,
+    StaticHTMLRenderer,
+    BrowsableAPIRenderer,
+)
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Capital
@@ -23,6 +28,10 @@ from rest_framework import permissions
 from rest_framework import filters
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 from rest_framework import versioning
+from rest_framework.decorators import api_view, renderer_classes
+
+from drf_excel.mixins import XLSXFileMixin
+from drf_excel.renderers import XLSXRenderer
 
 from .paginators import (
     CapitalsPaginator,
@@ -31,6 +40,35 @@ from .paginators import (
 )
 from .throttlers import AdminUserThrottle
 from .forms import JSONInputForm
+
+
+class MyExampleExcelViewSet(XLSXFileMixin, viewsets.ReadOnlyModelViewSet):
+    queryset = Capital.objects.all()
+    serializer_class = CapitalSerializer
+    renderer_classes = [XLSXRenderer]
+    filename = "my_export.xlsx"
+
+
+@api_view(["GET"])
+@renderer_classes([JSONRenderer])  # Делает простой json даже с браузера
+def custom_render_json(request):
+    return Response({"example-json": {"example": [1, 2, 3]}})
+
+
+@api_view(["GET"])
+@renderer_classes([TemplateHTMLRenderer])
+def custom_render_template(request):
+    return Response(
+        {"results": {"example": [1, 2, 3]}},
+        template_name="capitals/render-example.html",
+    )
+
+
+@api_view(["GET"])
+@renderer_classes([StaticHTMLRenderer])
+def custom_render_html(request):
+    data = "<html><body><h1>А это просто рендер хтмл, записанного прямо во вьюшке!</h1></body></html>"
+    return Response(data)
 
 
 class CapitalViewSetWithThrottlingWithScope(viewsets.ModelViewSet):
@@ -93,40 +131,41 @@ class CapitalViewSet(viewsets.ModelViewSet):
     Для доступа к разным версиям API используйте заголовок Accept:
     - Версия 1.0: Accept: application/json; version=1.0
     - Версия 2.0: Accept: application/json; version=2.0
-    
+
     Версия 1.0: базовая информация о столицах
     Версия 2.0: расширенная информация + дополнительные методы
     """
+
     queryset = Capital.objects.all()
     # permission_classes = [permissions.IsAuthenticated]
 
     def get_serializer_class(self):
         """Выбор сериализатора в зависимости от версии API"""
-        if self.request.version == '1.0':
+        if self.request.version == "1.0":
             return CapitalSerializer
         return CapitalNestedSerializer
 
     def get_queryset(self):
         """Выборка с дополнительной фильтрацией для версии 2.0"""
         queryset = Capital.objects.all()
-        if self.request.version == '2.0':
-            min_population = self.request.query_params.get('min_population', None)
+        if self.request.version == "2.0":
+            min_population = self.request.query_params.get("min_population", None)
             if min_population is not None:
                 queryset = queryset.filter(capital_population__gte=min_population)
         return queryset
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=["post"])
     def set_featured(self, request, pk=None):
         """Метод доступен только в версии 2.0"""
-        if request.version != '2.0':
+        if request.version != "2.0":
             return Response(
-                {'error': 'This endpoint is only available in API version 2.0'},
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": "This endpoint is only available in API version 2.0"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
         capital = self.get_object()
         capital.is_featured = True
         capital.save()
-        return Response({'status': 'capital marked as featured'})
+        return Response({"status": "capital marked as featured"})
 
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -429,6 +468,7 @@ class CapitalViewSetWithNamespaceVersioning(viewsets.ModelViewSet):
     - Версия 1.0: /api/v1/capitals-ns/
     - Версия 2.0: /api/v2/capitals-ns/
     """
+
     queryset = Capital.objects.all()
     versioning_class = versioning.NamespaceVersioning
     # permission_classes = [permissions.IsAuthenticated]
@@ -437,9 +477,9 @@ class CapitalViewSetWithNamespaceVersioning(viewsets.ModelViewSet):
         """Выбор сериализатора в зависимости от версии API"""
         version = self.request.resolver_match.namespace
         print(f"Current version from namespace: {version}")  # Для отладки
-        if version == 'v1':
+        if version == "v1":
             return CapitalSerializer
-        elif version == 'v2':
+        elif version == "v2":
             return CapitalNestedSerializer
         return CapitalSerializer  # По умолчанию возвращаем базовый сериализатор
 
@@ -448,26 +488,26 @@ class CapitalViewSetWithNamespaceVersioning(viewsets.ModelViewSet):
         queryset = Capital.objects.all()
         version = self.request.resolver_match.namespace
         print(f"Current version for queryset: {version}")  # Для отладки
-        if version == 'v2':
-            min_population = self.request.query_params.get('min_population', None)
+        if version == "v2":
+            min_population = self.request.query_params.get("min_population", None)
             if min_population is not None:
                 queryset = queryset.filter(capital_population__gte=min_population)
         return queryset
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=["post"])
     def set_featured(self, request, pk=None):
         """Метод доступен только в версии 2.0"""
         version = request.resolver_match.namespace
         print(f"Current version for action: {version}")  # Для отладки
-        if version != 'v2':
+        if version != "v2":
             return Response(
-                {'error': 'This endpoint is only available in API version 2.0'},
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": "This endpoint is only available in API version 2.0"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
         capital = self.get_object()
         capital.is_featured = True
         capital.save()
-        return Response({'status': 'capital marked as featured'})
+        return Response({"status": "capital marked as featured"})
 
 
 class CapitalViewSetWithVersioning(viewsets.ModelViewSet):
@@ -476,40 +516,41 @@ class CapitalViewSetWithVersioning(viewsets.ModelViewSet):
     Для доступа к разным версиям API используйте заголовок Accept:
     - Версия 1.0: Accept: application/json; version=1.0
     - Версия 2.0: Accept: application/json; version=2.0
-    
+
     Версия 1.0: базовая информация о столицах
     Версия 2.0: расширенная информация + дополнительные методы
     """
+
     queryset = Capital.objects.all()
     # permission_classes = [permissions.IsAuthenticated]
 
     def get_serializer_class(self):
         """Выбор сериализатора в зависимости от версии API"""
-        if self.request.version == '1.0':
+        if self.request.version == "1.0":
             return CapitalSerializer
         return CapitalNestedSerializer
 
     def get_queryset(self):
         """Выборка с дополнительной фильтрацией для версии 2.0"""
         queryset = Capital.objects.all()
-        if self.request.version == '2.0':
-            min_population = self.request.query_params.get('min_population', None)
+        if self.request.version == "2.0":
+            min_population = self.request.query_params.get("min_population", None)
             if min_population is not None:
                 queryset = queryset.filter(capital_population__gte=min_population)
         return queryset
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=["post"])
     def set_featured(self, request, pk=None):
         """Метод доступен только в версии 2.0"""
-        if request.version != '2.0':
+        if request.version != "2.0":
             return Response(
-                {'error': 'This endpoint is only available in API version 2.0'},
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": "This endpoint is only available in API version 2.0"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
         capital = self.get_object()
         capital.is_featured = True
         capital.save()
-        return Response({'status': 'capital marked as featured'})
+        return Response({"status": "capital marked as featured"})
 
 
 class CapitalViewSetWithHostNameVersioning(viewsets.ModelViewSet):
@@ -519,48 +560,49 @@ class CapitalViewSetWithHostNameVersioning(viewsets.ModelViewSet):
     - v1.localhost: Базовая версия с минимальным набором данных
     - v2.localhost: Расширенная версия с дополнительной информацией
     """
+
     queryset = Capital.objects.all()
     versioning_class = versioning.HostNameVersioning
     # permission_classes = [permissions.IsAuthenticated]
 
     def get_serializer_class(self):
         """Выбор сериализатора в зависимости от версии API"""
-        hostname = self.request.get_host().split('.')[0]
+        hostname = self.request.get_host().split(".")[0]
         print(f"Current version from hostname: {hostname}")  # Для отладки
-        
-        if hostname == 'v1':
+
+        if hostname == "v1":
             return CapitalSerializer
-        elif hostname == 'v2':
+        elif hostname == "v2":
             return CapitalNestedSerializer
         return CapitalSerializer  # По умолчанию возвращаем базовый сериализатор
 
     def get_queryset(self):
         """Выборка с дополнительной фильтрацией для версии 2.0"""
         queryset = Capital.objects.all()
-        hostname = self.request.get_host().split('.')[0]
+        hostname = self.request.get_host().split(".")[0]
         print(f"Current version for queryset: {hostname}")  # Для отладки
-        
-        if hostname == 'v2':
-            min_population = self.request.query_params.get('min_population', None)
+
+        if hostname == "v2":
+            min_population = self.request.query_params.get("min_population", None)
             if min_population is not None:
                 queryset = queryset.filter(capital_population__gte=min_population)
         return queryset
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=["post"])
     def set_featured(self, request, pk=None):
         """Метод доступен только в версии 2.0"""
-        hostname = request.get_host().split('.')[0]
+        hostname = request.get_host().split(".")[0]
         print(f"Current version for action: {hostname}")  # Для отладки
-        
-        if hostname != 'v2':
+
+        if hostname != "v2":
             return Response(
-                {'error': 'This endpoint is only available in API version 2.0'},
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": "This endpoint is only available in API version 2.0"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
         capital = self.get_object()
         capital.is_featured = True
         capital.save()
-        return Response({'status': 'capital marked as featured'})
+        return Response({"status": "capital marked as featured"})
 
 
 def serialize_data(request):

@@ -57,7 +57,13 @@ router.register(
 )
 
 # Регистрируем версионный ViewSet
-router.register(r'capitals-with-versions', views.CapitalViewSetWithVersioning, basename='capital-with-versions')
+router.register(
+    r"capitals-with-versions",
+    views.CapitalViewSetWithVersioning,
+    basename="capital-with-versions",
+)
+
+router.register(r"excel-reader", views.MyExampleExcelViewSet, basename="excel-viewset")
 
 # Создаем роутеры для разных версий API
 router_v1 = DefaultRouter()
@@ -65,18 +71,26 @@ router_v2 = DefaultRouter()
 router_hostname = DefaultRouter()
 
 # Регистрируем версионный ViewSet в разных пространствах имен
-router_v1.register(r'capitals-ns', views.CapitalViewSetWithNamespaceVersioning, basename='capital-ns')
-router_v2.register(r'capitals-ns', views.CapitalViewSetWithNamespaceVersioning, basename='capital-ns')
+router_v1.register(
+    r"capitals-ns", views.CapitalViewSetWithNamespaceVersioning, basename="capital-ns"
+)
+router_v2.register(
+    r"capitals-ns", views.CapitalViewSetWithNamespaceVersioning, basename="capital-ns"
+)
 
 # Регистрируем ViewSet для HostNameVersioning
-router_hostname.register(r'capitals-hostname', views.CapitalViewSetWithHostNameVersioning, basename='capital-hostname')
+router_hostname.register(
+    r"capitals-hostname",
+    views.CapitalViewSetWithHostNameVersioning,
+    basename="capital-hostname",
+)
 
 urlpatterns = [
     path("", views.home, name="home"),
     path("api/", include(router.urls)),
-    path('api/v1/', include((router_v1.urls, 'v1'), namespace='v1')),
-    path('api/v2/', include((router_v2.urls, 'v2'), namespace='v2')),
-    path('api/hostname/', include(router_hostname.urls)),
+    path("api/v1/", include((router_v1.urls, "v1"), namespace="v1")),
+    path("api/v2/", include((router_v2.urls, "v2"), namespace="v2")),
+    path("api/hostname/", include(router_hostname.urls)),
     path("api-auth/", include("rest_framework.urls")),
     path("serialize/", views.serialize_data, name="serialize"),
     path("demonstrate/", views.demonstrate_serializer, name="demonstrate"),
@@ -84,4 +98,9 @@ urlpatterns = [
     path("nested/", views.nested_serializer_demo, name="nested_serializer_demo"),
     path("depth/", views.depth_demo, name="depth_demo"),
     path("api-docs/", views.api_docs, name="api_docs"),
+    path("api-json-render/", views.custom_render_json, name="api-json-render"),
+    path(
+        "api-template-render/", views.custom_render_template, name="api-template-render"
+    ),
+    path("api-html-render/", views.custom_render_html, name="api-html=render"),
 ]

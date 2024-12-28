@@ -10,9 +10,8 @@ class Capital(models.Model):
     is_primary = models.BooleanField(default=False)
     objects = models.Manager()
 
-
     def __str__(self):
         return f"{self.capital_city} - {self.country}"
 
     class Meta:
-        ordering = ['country']
+        ordering = ["country"]
